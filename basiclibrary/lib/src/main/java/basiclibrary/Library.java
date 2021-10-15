@@ -3,8 +3,7 @@
  */
 package basiclibrary;
 
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
 
 public class Library {
     public boolean someLibraryMethod() {
@@ -32,7 +31,19 @@ public class Library {
 
     }
     public static void main(String[] args) {
+        ArrayList<String> votes = new ArrayList<>();
+        votes.add("Bush");
+        votes.add("Bush");
+        votes.add("Bush");
+        votes.add("Shrub");
+        votes.add("Hedge");
+        votes.add("Shrub");
+        votes.add("Bush");
+        votes.add("Hedge");
+        votes.add("Bush");
 
+        String winner = tally(votes);
+        System.out.println(winner + " received the most votes!");
         System.out.println(Arrays.toString(roll(4)));
         int []  arr= {1,2,3,4};
         int[][] weeklyMonthTemperatures = {
@@ -44,6 +55,7 @@ public class Library {
         System.out.println(containsDuplicates(arr));
         System.out.println(getAvg(arr));
         System.out.println(Arrays.toString(smallArrayAvg(weeklyMonthTemperatures)));
+        analysisWeatherData(weeklyMonthTemperatures);
     }
     public static  int[] roll(int n){
         Random rand = new Random(System.currentTimeMillis());
@@ -72,5 +84,46 @@ public class Library {
             }
         }
         return doesItContain;
+    }
+    public  static  void  analysisWeatherData(int [][] weatherData){
+        HashSet<Integer> weatherDataSet = new HashSet<Integer>();
+        int minTemp = weatherData[0][0];
+        int maxTemp = weatherData[0][0];
+        for (int i = 0; i <weatherData.length ; i++) {
+            for (int j = 0; j <weatherData[i].length ; j++) {
+                weatherDataSet.add(weatherData[i][j]);
+                if(weatherData[i][j]< minTemp)
+                    minTemp = weatherData[i][j];
+                if(weatherData[i][j]>maxTemp)
+                    maxTemp = weatherData[i][j];
+            }
+        }
+        System.out.println("High: "+maxTemp);
+        System.out.println("Low: "+minTemp);
+        for (int i = minTemp+1; i <maxTemp-1 ; i++) {
+            if(!weatherDataSet.contains(i))
+                System.out.println("Never saw temperature: "+i);
+        }
+    }
+
+    public static String tally(ArrayList<String> votes){
+        HashMap<String,Integer> candidatesVotes = new HashMap<String,Integer>();
+        for (String vote: votes) {
+            if(!candidatesVotes.containsKey(vote))
+                candidatesVotes.put(vote,1);
+            else{
+               int voteInc = candidatesVotes.get(vote)+1;
+                candidatesVotes.put(vote,voteInc);
+            }
+
+        }
+        int maxVote = candidatesVotes.get(votes.get(0));
+        String winner;
+        winner = votes.get(0);
+        for (String vote:candidatesVotes.keySet()){
+          if(candidatesVotes.get(vote)>maxVote)
+              winner = vote;
+        }
+        return winner;
     }
 }

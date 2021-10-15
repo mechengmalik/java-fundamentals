@@ -4,6 +4,11 @@
 package basiclibrary;
 
 import org.junit.Test;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 public class LibraryTest {
@@ -31,5 +36,42 @@ public class LibraryTest {
     @Test public void  testSmallArrayAvg(){
         int [][] arr  = {{1,1,1,1},{2,2,2,2},{3,3,3,3}};
         assertTrue("the lowest array avg is [1,1,1,1]",Library.smallArrayAvg(arr).equals(arr[0]));
+    }
+
+    @Test public void testAnalysisWeatherData() throws Exception {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+
+        System.setOut(new PrintStream(outContent));
+        int[][] weeklyMonthTemperatures = {
+                {66, 64, 58, 65, 71, 57, 60},
+                {57, 65, 65, 70, 72, 65, 51},
+                {55, 54, 60, 53, 59, 57, 61},
+                {65, 56, 55, 52, 55, 62, 57}
+        };
+        Library.analysisWeatherData(weeklyMonthTemperatures);
+
+        String expectedOutput  = "High: 72\n" +
+                "Low: 51\n" +
+                "Never saw temperature: 63\n" +
+                "Never saw temperature: 67\n" +
+                "Never saw temperature: 68\n" +
+                "Never saw temperature: 69\n";
+
+        assertEquals(expectedOutput, outContent.toString());
+    }
+
+    @Test public void testTally(){
+        ArrayList<String> votes = new ArrayList<>();
+        votes.add("Bush");
+        votes.add("Bush");
+        votes.add("Bush");
+        votes.add("Shrub");
+        votes.add("Hedge");
+        votes.add("Shrub");
+        votes.add("Bush");
+        votes.add("Hedge");
+        votes.add("Bush");
+assertEquals("the winner is bush","Bush",Library.tally(votes));
+
     }
 }

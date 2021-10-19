@@ -5,7 +5,7 @@ package inheritance;
 
 public class Library {
     public static void main(String[] args) {
-        Restaurant allward = new Restaurant("allward",5,2);
+        Restaurant allward = new Restaurant("allward",5,"$");
         Review note = new Review("good","abdallah",4);
         System.out.println(note.toString());
 
